@@ -3,116 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Blessing</title>
+  <title>Happy Birthday</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #fff0f5;
+      font-family: Arial, sans-serif;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
-    /* Bouquet (main flower bunch) */
-    #bouquet {
-      display: flex;
-      flex-wrap: wrap;
-      width: 180px;
-      height: 180px;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: opacity 1s ease;
-    }
-
-    .flower {
-      width: 50px;
-      height: 50px;
-      background: pink;
-      border-radius: 50%;
-      margin: 5px;
-      position: relative;
-    }
-
-    .flower::before, .flower::after {
-      content: "";
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: #ff6fa5;
-      border-radius: 50%;
-    }
-
-    .flower::before { top: -20px; left: 5px; }
-    .flower::after { top: 5px; left: -20px; }
-
-    /* Birthday message */
-    #message {
-      position: absolute;
-      top: 40%;
-      width: 100%;
+    /* Bouquet + heart */
+    .bouquet {
+      font-size: 4rem;
       text-align: center;
-      font-size: 2rem;
+    }
+
+    /* Glowing button */
+    .btn {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 1.2rem;
       font-weight: bold;
-      color: black;
-      opacity: 0;
-      transition: opacity 2s ease;
+      color: white;
+      background: linear-gradient(45deg, #ff4d6d, #ff99cc);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff99cc; }
+      to { box-shadow: 0 0 20px #ff4d6d, 0 0 30px #ff99cc; }
     }
 
     /* Floating flowers */
-    .small-flower {
+    .flower {
       position: absolute;
-      font-size: 24px;
-      animation: float 6s linear infinite;
+      font-size: 1.5rem;
+      animation: floatUp 5s linear infinite;
+      opacity: 0.8;
     }
 
-    @keyframes float {
-      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
-      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    @keyframes floatUp {
+      from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Message */
+    .message {
+      display: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: black;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    @media (min-width: 768px) {
+      .bouquet { font-size: 6rem; }
+      .btn { font-size: 1.5rem; padding: 15px 35px; }
+      .message { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
   <!-- Bouquet -->
-  <div id="bouquet" onclick="surprise()">
-    <div class="flower"></div>
-    <div class="flower"></div>
-    <div class="flower"></div>
-    <div class="flower"></div>
-    <div class="flower"></div>
-    <div class="flower"></div>
-  </div>
+  <div class="bouquet" id="bouquet">💐❤️💐❤️💐</div>
 
-  <!-- Birthday Message -->
-  <div id="message">🌸 Happy Birthday my dear sis Blessing 🌸 <br>
-    You are indeed a blessing and I truly love you 🥹💖
+  <!-- Button -->
+  <button class="btn" id="clickBtn">Click Me</button>
+
+  <!-- Message -->
+  <div class="message" id="message">
+    🎉 Happy Birthday my dear sis Blessing 🎉 <br>
+    You are indeed a blessing and I truly love you 🥹❤️
   </div>
 
   <script>
-    function surprise() {
-      // Hide bouquet
-      document.getElementById("bouquet").style.opacity = "0";
+    const btn = document.getElementById('clickBtn');
+    const bouquet = document.getElementById('bouquet');
+    const message = document.getElementById('message');
+
+    btn.addEventListener('click', () => {
+      // Hide bouquet and button
+      bouquet.style.display = 'none';
+      btn.style.display = 'none';
 
       // Show message
-      document.getElementById("message").style.opacity = "1";
+      message.style.display = 'block';
 
       // Generate floating flowers
       for (let i = 0; i < 30; i++) {
-        let flower = document.createElement("div");
-        flower.className = "small-flower";
-        flower.innerHTML = "🌸";
-        flower.style.left = Math.random() * 100 + "vw";
-        flower.style.animationDuration = (3 + Math.random() * 5) + "s";
+        let flower = document.createElement('div');
+        flower.classList.add('flower');
+        flower.innerHTML = '🌸';
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.animationDuration = (3 + Math.random() * 3) + 's';
+        flower.style.fontSize = (1 + Math.random() * 2) + 'rem';
         document.body.appendChild(flower);
 
-        // Remove after animation
-        setTimeout(() => flower.remove(), 8000);
+        // Remove flower after animation
+        setTimeout(() => {
+          flower.remove();
+        }, 6000);
       }
-    }
+    });
   </script>
 
 </body>
