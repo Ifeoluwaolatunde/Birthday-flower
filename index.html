@@ -8,39 +8,83 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #ffe6f0; /* light pink */
       font-family: Arial, sans-serif;
       text-align: center;
+      background-color: #ffe6f0; /* light pink */
+      overflow-x: hidden;
+    }
+
+    /* First screen */
+    #intro {
+      margin-top: 100px;
+    }
+    .bouquet {
+      font-size: 5rem;
+    }
+    .hearts {
+      font-size: 3rem;
+    }
+    .shine-btn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: linear-gradient(45deg, #ff4081, #ff80ab, #ff4081);
+      background-size: 200% 200%;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      animation: shine 3s infinite;
+    }
+    @keyframes shine {
+      0% { background-position: left; }
+      50% { background-position: right; }
+      100% { background-position: left; }
+    }
+
+    /* Second screen */
+    #mainContent {
+      display: none;
+      margin-top: 40px;
     }
     .message {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: bold;
       color: black;
-      margin-top: 40px;
+      margin: 30px 20px;
     }
     .input-area {
       margin-top: 20px;
     }
     input[type="text"] {
-      padding: 10px;
+      padding: 12px;
       width: 70%;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      border: 2px solid #ff80ab;
+      border-radius: 15px;
+      font-size: 1rem;
+      outline: none;
     }
-    button {
-      margin-top: 10px;
+    input[type="text"]::placeholder {
+      color: #888;
+      font-style: italic;
+    }
+    button.send-btn {
+      margin-top: 15px;
       padding: 12px 20px;
       font-size: 1rem;
       background: #ff4081;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 20px;
       cursor: pointer;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    button:hover {
+    button.send-btn:hover {
       background: #e60073;
     }
+
     .submitted-messages {
       margin-top: 30px;
       padding: 20px;
@@ -63,26 +107,62 @@
       border-radius: 8px;
       margin: 5px 0;
     }
+
+    /* Floating flowers */
+    .flower {
+      position: absolute;
+      font-size: 2rem;
+      animation: floatUp 6s linear infinite;
+    }
+    @keyframes floatUp {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="message">
-    🎉 Happy Birthday my dear sis Blessing 💐 <br>
-    You are indeed a blessing and I truly love you 🥹
+  <!-- First Screen -->
+  <div id="intro">
+    <div class="bouquet">💐</div>
+    <div class="hearts">❤️ 💖 ❤️</div>
+    <button class="shine-btn" onclick="showMain()">Click Me</button>
   </div>
 
-  <div class="input-area">
-    <input type="text" id="userMessage" placeholder="Write your message here">
-    <br>
-    <button onclick="addMessage()">Send a message to her</button>
-  </div>
+  <!-- Second Screen -->
+  <div id="mainContent">
+    <div class="message">
+      🎉 Happy Birthday my dear sis Blessing 💐 <br>
+      You are indeed a blessing and I truly love you 🥹
+    </div>
 
-  <div class="submitted-messages" id="messagesBox">
-    <h3>Messages:</h3>
+    <div class="input-area">
+      <input type="text" id="userMessage" placeholder="Pls put your name and your message for her😊">
+      <br>
+      <button class="send-btn" onclick="addMessage()">Send a message to her</button>
+    </div>
+
+    <div class="submitted-messages" id="messagesBox">
+      <h3>Messages:</h3>
+    </div>
   </div>
 
   <script>
+    function showMain() {
+      document.getElementById("intro").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
+
+      // generate floating flowers
+      for (let i = 0; i < 20; i++) {
+        let flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.innerHTML = "🌸";
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.animationDuration = (3 + Math.random() * 5) + "s";
+        document.body.appendChild(flower);
+      }
+    }
+
     function addMessage() {
       const input = document.getElementById("userMessage");
       const messagesBox = document.getElementById("messagesBox");
