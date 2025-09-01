@@ -117,6 +117,37 @@
   </div>
 
   <script>
+
+        
+  const btn = document.getElementById('clickBtn');
+  const bouquet = document.getElementById('bouquet');
+  const message = document.getElementById('message');
+  const ife = document.getElementById('ife');  // renamed
+
+  btn.addEventListener('click', () => {
+    bouquet.style.display = 'none';
+    btn.style.display = 'none';
+    message.style.display = 'block';
+
+    // Show the image
+    ife.style.display = 'block';
+
+    // Flowers floating animation
+    for (let i = 0; i < 30; i++) {
+      let flower = document.createElement('div');
+      flower.classList.add('flower');
+      flower.innerHTML = '🌸';
+      flower.style.left = Math.random() * 100 + 'vw';
+      flower.style.animationDuration = (3 + Math.random() * 3) + 's';
+      flower.style.fontSize = (1 + Math.random() * 2) + 'rem';
+      document.body.appendChild(flower);
+
+      setTimeout(() => {
+        flower.remove();
+      }, 6000);
+    }
+  });
+    
     const btn = document.getElementById('clickBtn');
     const bouquet = document.getElementById('bouquet');
     const message = document.getElementById('message');
