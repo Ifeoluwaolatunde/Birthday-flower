@@ -8,173 +8,154 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #ffe6f0; /* light pink */
-      overflow-x: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #ffe6f0; /* Light pink background */
+      font-family: cursive; /* Cursive font */
+      overflow: hidden;
     }
 
-    /* First screen */
-    #intro {
-      margin-top: 100px;
-    }
+    /* Bouquet + heart */
     .bouquet {
-      font-size: 5rem;
+      font-size: 4rem;
+      text-align: center;
+      z-index: 2;
     }
-    .hearts {
-      font-size: 3rem;
-    }
-    .shine-btn {
-      margin-top: 30px;
-      padding: 15px 30px;
+
+    /* Glowing button */
+    .btn {
+      margin-top: 20px;
+      padding: 12px 25px;
       font-size: 1.2rem;
       font-weight: bold;
-      background: linear-gradient(45deg, #ff4081, #ff80ab, #ff4081);
-      background-size: 200% 200%;
       color: white;
+      background: linear-gradient(45deg, #ff4d6d, #ff99cc);
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      animation: shine 3s infinite;
-    }
-    @keyframes shine {
-      0% { background-position: left; }
-      50% { background-position: right; }
-      100% { background-position: left; }
+      animation: glow 1.5s infinite alternate;
+      z-index: 2;
     }
 
-    /* Second screen */
-    #mainContent {
-      display: none;
-      margin-top: 40px;
-    }
-    .message {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: black;
-      margin: 30px 20px;
-    }
-    .input-area {
-      margin-top: 20px;
-    }
-    input[type="text"] {
-      padding: 12px;
-      width: 70%;
-      border: 2px solid #ff80ab;
-      border-radius: 15px;
-      font-size: 1rem;
-      outline: none;
-    }
-    input[type="text"]::placeholder {
-      color: #888;
-      font-style: italic;
-    }
-    button.send-btn {
-      margin-top: 15px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      background: #ff4081;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    button.send-btn:hover {
-      background: #e60073;
-    }
-
-    .submitted-messages {
-      margin-top: 30px;
-      padding: 20px;
-      border-top: 2px solid #ccc;
-      text-align: left;
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .submitted-messages h3 {
-      margin-top: 0;
-      color: #333;
-    }
-    .submitted-messages p {
-      background: #ffe6f0;
-      padding: 8px;
-      border-radius: 8px;
-      margin: 5px 0;
+    @keyframes glow {
+      from { box-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff99cc; }
+      to { box-shadow: 0 0 20px #ff4d6d, 0 0 30px #ff99cc; }
     }
 
     /* Floating flowers */
     .flower {
       position: absolute;
-      font-size: 2rem;
-      animation: floatUp 6s linear infinite;
+      font-size: 1.5rem;
+      animation: floatUp 5s linear infinite;
+      opacity: 0.8;
     }
+
     @keyframes floatUp {
-      from { transform: translateY(100vh); opacity: 1; }
-      to { transform: translateY(-10vh); opacity: 0; }
+      from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Falling hearts (love flakes) */
+    .heart {
+      position: absolute;
+      top: -10px;
+      font-size: 1.5rem;
+      animation: fallDown 6s linear infinite;
+      opacity: 0.9;
+    }
+
+    @keyframes fallDown {
+      from { transform: translateY(-10vh); opacity: 1; }
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+
+    /* Message */
+    .message {
+      display: none;
+      font-size: 2rem;
+      font-weight: bold;
+      font-family: cursive;
+      color: black;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    @media (min-width: 768px) {
+      .bouquet { font-size: 6rem; }
+      .btn { font-size: 1.5rem; padding: 15px 35px; }
+      .message { font-size: 3rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- First Screen -->
-  <div id="intro">
-    <div class="bouquet">💐</div>
-    <div class="hearts">❤️ 💖 ❤️</div>
-    <button class="shine-btn" onclick="showMain()">Click Me</button>
-  </div>
+  <!-- Bouquet -->
+  <div class="bouquet" id="bouquet">💐❤️💐❤️💐</div>
 
-  <!-- Second Screen -->
-  <div id="mainContent">
-    <div class="message">
-      🎉 Happy Birthday my dear sis Blessing 💐 <br>
-      You are indeed a blessing and I truly love you 🥹
-    </div>
+  <!-- Button -->
+  <button class="btn" id="clickBtn">Click Me</button>
 
-    <div class="input-area">
-      <input type="text" id="userMessage" placeholder="Pls put your name and your message for her😊">
-      <br>
-      <button class="send-btn" onclick="addMessage()">Send a message to her</button>
-    </div>
-
-    <div class="submitted-messages" id="messagesBox">
-      <h3>Messages:</h3>
-    </div>
+  <!-- Message -->
+  <div class="message" id="message">
+    🎉 Happy Birthday my dear sis Blessing 🎉 <br>
+    You are indeed a blessing and I truly love you 🥹❤️
   </div>
 
   <script>
-    function showMain() {
-      document.getElementById("intro").style.display = "none";
-      document.getElementById("mainContent").style.display = "block";
+    const btn = document.getElementById('clickBtn');
+    const bouquet = document.getElementById('bouquet');
+    const message = document.getElementById('message');
 
-      // generate floating flowers
-      for (let i = 0; i < 20; i++) {
-        let flower = document.createElement("div");
-        flower.classList.add("flower");
-        flower.innerHTML = "🌸";
-        flower.style.left = Math.random() * 100 + "vw";
-        flower.style.animationDuration = (3 + Math.random() * 5) + "s";
+    // Generate falling hearts (on first screen only)
+    function createHearts() {
+      setInterval(() => {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (1 + Math.random() * 1.5) + "rem";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+
+        // Remove after falling
+        setTimeout(() => {
+          heart.remove();
+        }, 7000);
+      }, 500);
+    }
+    createHearts();
+
+    btn.addEventListener('click', () => {
+      // Hide bouquet and button
+      bouquet.style.display = 'none';
+      btn.style.display = 'none';
+
+      // Stop heart flakes by clearing body children with class "heart"
+      const hearts = document.querySelectorAll('.heart');
+      hearts.forEach(h => h.remove());
+
+      // Show message
+      message.style.display = 'block';
+
+      // Generate floating flowers
+      for (let i = 0; i < 30; i++) {
+        let flower = document.createElement('div');
+        flower.classList.add('flower');
+        flower.innerHTML = '🌸';
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.animationDuration = (3 + Math.random() * 3) + 's';
+        flower.style.fontSize = (1 + Math.random() * 2) + 'rem';
         document.body.appendChild(flower);
-      }
-    }
 
-    function addMessage() {
-      const input = document.getElementById("userMessage");
-      const messagesBox = document.getElementById("messagesBox");
-      const text = input.value.trim();
-
-      if (text !== "") {
-        const p = document.createElement("p");
-        p.textContent = text;
-        messagesBox.appendChild(p);
-        input.value = ""; // clear input
+        // Remove flower after animation
+        setTimeout(() => {
+          flower.remove();
+        }, 6000);
       }
-    }
+    });
   </script>
 
 </body>
