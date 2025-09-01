@@ -14,7 +14,7 @@
       align-items: center;
       flex-direction: column;
       background: #ffe6f0; /* Light pink background */
-      font-family: cursive; /* Cursive font */
+      font-family: cursive;
       overflow: hidden;
     }
 
@@ -58,7 +58,7 @@
       to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
-    /* Falling hearts (love flakes) */
+    /* Falling hearts */
     .heart {
       position: absolute;
       top: -10px;
@@ -82,14 +82,17 @@
       text-align: center;
       max-width: 90%;
     }
-    .ife{
-     width: 100px;
-     height: 100px;
-     object-fit: cover;   /* keeps it nicely cropped */
-     position: absolute;
-     top: 10px;           /* space from the top */
-     right: 10px;         /* space from the right */
-     border-radius: 10px; /* optional: gives slightly rounded corners */
+
+    /* Ife image */
+    .ife {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border-radius: 10px;
+      display: none; /* hidden at first */
     }
 
     @media (min-width: 768px) {
@@ -112,17 +115,17 @@
     🎉 Happy Birthday my dear sis Blessing 🎉 <br>
     You are indeed a blessing and I truly love you 🥹❤️
   </div>
-  <div class=ife">
-    <img src="IMG-20250425-WA0022.jpg" alt="Birthday Cake" width="300">
-  </div>
+
+  <!-- Ife Image -->
+  <img src="IMG-20250425-WA0022.jpg" alt="Birthday Cake" class="ife" id="ife">
 
   <script>
-    
     const btn = document.getElementById('clickBtn');
     const bouquet = document.getElementById('bouquet');
     const message = document.getElementById('message');
+    const ife = document.getElementById('ife');
 
-    // Generate falling hearts (on first screen only)
+    // Falling hearts on first screen
     function createHearts() {
       setInterval(() => {
         let heart = document.createElement("div");
@@ -133,7 +136,6 @@
         heart.style.animationDuration = (4 + Math.random() * 3) + "s";
         document.body.appendChild(heart);
 
-        // Remove after falling
         setTimeout(() => {
           heart.remove();
         }, 7000);
@@ -142,18 +144,18 @@
     createHearts();
 
     btn.addEventListener('click', () => {
-      // Hide bouquet and button
       bouquet.style.display = 'none';
       btn.style.display = 'none';
 
-      // Stop heart flakes by clearing body children with class "heart"
+      // Stop hearts
       const hearts = document.querySelectorAll('.heart');
       hearts.forEach(h => h.remove());
 
-      // Show message
+      // Show message + image
       message.style.display = 'block';
+      ife.style.display = 'block';
 
-      // Generate floating flowers
+      // Floating flowers
       for (let i = 0; i < 30; i++) {
         let flower = document.createElement('div');
         flower.classList.add('flower');
@@ -163,7 +165,6 @@
         flower.style.fontSize = (1 + Math.random() * 2) + 'rem';
         document.body.appendChild(flower);
 
-        // Remove flower after animation
         setTimeout(() => {
           flower.remove();
         }, 6000);
